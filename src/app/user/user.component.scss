@@ -1,0 +1,65 @@
+.card-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card-body img {
+    width: 20%;
+    border-radius: 5px 5px 5px;
+}
+
+.card-text {
+    width: 65%;
+}
+
+table {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.material-icons {
+
+    font-size: 50px;
+    color: blue;
+}
+
+.add-button {
+    background: white;
+    border: 0;
+    color: white;
+}
+
+.edit-icon{
+    font-size: 24px;
+    color: gray;
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.header h3 {
+    width:85%;
+}
+
+.header i {
+    font-size: 30px;
+    width: 5%;
+
+}
+
+#ic {
+    font-size: 30px;
+    width: 5%;
+
+}
+
+#add {
+    font-size:40px;
+
+}
+
+
+
+
