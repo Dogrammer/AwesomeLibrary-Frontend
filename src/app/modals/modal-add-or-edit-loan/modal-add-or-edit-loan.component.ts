@@ -1,24 +1,29 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { IContact } from 'src/app/models/contact';
+import { IBook } from 'src/app/models/book';
+import { ILoanBookRequest } from 'src/app/models/loan-book-request';
+import { IUser } from 'src/app/models/user';
+import { BookService } from 'src/app/services/book.service';
+import { LoanService } from 'src/app/services/loan.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-modal-add-or-edit-user',
-  templateUrl: './modal-add-or-edit-user.component.html',
-  styleUrls: ['./modal-add-or-edit-user.component.scss']
+  selector: 'app-modal-add-or-edit-loan',
+  templateUrl: './modal-add-or-edit-loan.component.html',
+  styleUrls: ['./modal-add-or-edit-loan.component.scss']
 })
-export class ModalAddOrEditUserComponent implements OnInit {
+export class ModalAddOrEditLoanComponent implements OnInit {
 
   @Input() title;
   @Input() action;
   @Input() row;
 
-  users: any[] =[];
-  contacts: IContact[] = [];
+  users: IUser[] = [];
+  books: IBook[] = [];
+  loanBookRequests: ILoanBookRequest[] = [];
   isAdmin;
-  userGroup: FormGroup;
+  loanGroup: FormGroup;
   // userGroup: FormGroup = this.formBuilder.group({
   //   firstName: ['', Validators.required],
   //   lastName: [''],
@@ -33,54 +38,71 @@ export class ModalAddOrEditUserComponent implements OnInit {
   constructor(
     public modal: NgbActiveModal,
     public formBuilder: FormBuilder,
-    // private http: HttpClient,
     private userService: UserService,
+    private bookService: BookService,
+    // private http: HttpClient,
+    private loanService: LoanService,
   )
     
     {}
 
   ngOnInit() {
-
-    this.userGroup = this.formBuilder.group({
-      firstName: [''],
-      lastName: [''],
-      dateOfBirth: [],
-      file: [''],
-      fileSource: [''],
-      contacts: this.formBuilder.array([
-        this.addContactForm()
+    this.getUsers();
+    this.getBooks();
+    this.loanGroup = this.formBuilder.group({
+      userId: [null, Validators.required],
+      dateLoaned: ['',Validators.required],
+      dateDue: [Validators.required],
+      loanBookRequests: this.formBuilder.array([
+        this.addLoanBookRequestsForm()
       ])
     });
     
     // this.checkIfAdmin();
     // this.getApartmentManagers();
-    if(this.row && this.action == 'edit') {
-      this.contacts = this.row.contacts;
-      this.userGroup.setControl('contacts', this.setExistingContacts(this.contacts))
+    // if(this.row && this.action == 'edit') {
+    //   this.loanBookRequests = this.row.contacts;
+    //   this.userGroup.setControl('contacts', this.setExistingContacts(this.contacts))
       
-      this.userGroup.patchValue({
-        firstName: this.row.firstName,
-        lastName: this.row.lastName,
-        dateOfBirth: this.row.dateOfBirth,
-        // contacts: this.row.contacts,
+    //   this.userGroup.patchValue({
+    //     firstName: this.row.firstName,
+    //     lastName: this.row.lastName,
+    //     dateOfBirth: this.row.dateOfBirth,
+    //     // contacts: this.row.contacts,
         
-        // file: this.row.imageFilePath,
-        // userName: this.row.user.userName
-        // isActive: this.row.isActive,
-        // activeFrom: this.row.activeFrom,
-      });
-      console.log(this.row);
-      console.log('controle edit', this.userGroup.value);
+    //     // file: this.row.imageFilePath,
+    //     // userName: this.row.user.userName
+    //     // isActive: this.row.isActive,
+    //     // activeFrom: this.row.activeFrom,
+    //   });
+    //   console.log(this.row);
+    //   console.log('controle edit', this.userGroup.value);
       
 
       
 
-    }
+    // }
 
     console.log(this.row);
     
 
     
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe(
+      data => {
+        this.users = data.map((i) => { i.fullName = i.firstName + ' ' + i.lastName; return i; })
+      }
+    )
+  }
+
+  getBooks() {
+    this.bookService.getBooks().subscribe(
+      data => {
+        this.books = data;
+      }
+    )
   }
 
 
@@ -131,10 +153,10 @@ export class ModalAddOrEditUserComponent implements OnInit {
     
   //upload
   submit(){
-    console.log('forma :',this.userGroup.value);
+    console.log('forma :',this.loanGroup.value);
 
     if (this.row) {
-      this.userService.editUser(this.row.id, this.userGroup.value).subscribe(
+      this.loanService.editLoan(this.row.id, this.loanGroup.value).subscribe(
         data => {
           this.modal.close('edit');
         }
@@ -142,14 +164,9 @@ export class ModalAddOrEditUserComponent implements OnInit {
 
     }
     else {
-      console.log(this.userGroup.value.contacts);
+      console.log(this.loanGroup.value);
       
-      const formData = new FormData();
-      formData.append('file', this.userGroup.get('fileSource').value);
-      formData.append('contacts', JSON.stringify(this.userGroup.value.contacts));
-      console.log(formData);
-      
-      this.userService.saveUser(formData).subscribe(
+      this.loanService.saveLoan(this.loanGroup.value).subscribe(
         data => {
           this.modal.close('add');
         }
@@ -187,63 +204,55 @@ export class ModalAddOrEditUserComponent implements OnInit {
     
   }
 
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.userGroup.patchValue({
-        fileSource: file
-      });
-    }
-  }
+  
 
-  addContactForm(): FormGroup {
+  addLoanBookRequestsForm(): FormGroup {
     return this.formBuilder.group({
-      phoneNumber: ['', Validators.required],
-      mobileNumber: ['', Validators.required],
-      emailAddress: ['', Validators.required],
+      bookId: [null, Validators.required],
+      quantity: [null, Validators.required],
     });
   }
 
-  addContacts(): void {
-    (<FormArray>this.userGroup.get('contacts')).push(this.addContactForm());
+  addLoanBooks(): void {
+    (<FormArray>this.loanGroup.get('loanBookRequests')).push(this.addLoanBookRequestsForm());
   }
 
-  removeContact(i: number) {
-    (<FormArray>this.userGroup.get('contacts')).removeAt(i);
+  removeLoanBook(i: number) {
+    (<FormArray>this.loanGroup.get('loanBookRequests')).removeAt(i);
  }
 
- setExistingContacts(contacts: IContact[]) : FormArray { 
-  console.log('uso u existing', contacts);
+//  setExistingLoanBook(contacts: IContact[]) : FormArray { 
+//   console.log('uso u existing', contacts);
   
-  const formArray = new FormArray([]);
-  contacts.forEach(d => {
-   formArray.push(this.formBuilder.group({
-      mobileNumber: d.mobileNumber,
-      phoneNumber: d.phoneNumber,
-      emailAddress: d.emailAddress,
-    }));
-  });
-  return formArray;
-}
+//   const formArray = new FormArray([]);
+//   contacts.forEach(d => {
+//    formArray.push(this.formBuilder.group({
+//       mobileNumber: d.mobileNumber,
+//       phoneNumber: d.phoneNumber,
+//       emailAddress: d.emailAddress,
+//     }));
+//   });
+//   return formArray;
+// }
 
-  get contactControls() {
-    return this.userGroup.get('contacts')['controls'];
+  get loanBookControls() {
+    return this.loanGroup.get('loanBookRequests')['controls'];
   }
 
-  get firstName(): AbstractControl {
-    return this.userGroup.get('firstName');
+  get userId(): AbstractControl {
+    return this.loanGroup.get('userId');
   }
 
-  get lastName(): AbstractControl {
-    return this.userGroup.get('lastName');
+  get dateLoaned(): AbstractControl {
+    return this.loanGroup.get('dateLoaned');
   }
 
-  get dateOfBirth(): AbstractControl {
-    return this.userGroup.get('dateOfBirth');
-  }
+  // get bookId(): AbstractControl {
+  //   return this.loanGroup.get('bookId');
+  // }
 
-  get f(){
-    return this.userGroup.controls;
+  get dateDue(): AbstractControl {
+    return this.loanGroup.get('dateDue');
   }
 
   // get f(){

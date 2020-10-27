@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { PaginatedResult } from '../helpers/pagination';
 import { IUser } from '../models/user';
+import { UserParams } from '../models/userParams';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +20,43 @@ export class UserService {
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(environment.apiUrl + this.CONTROLLER).pipe(
       map( data => {
-        return data
+        return data;
       })
     );
+  }
+
+  getUsersPagination(userParams: UserParams, filterData ) {
+    
+    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    console.log(filterData);
+    
+    if (filterData && filterData.userId > 0) {
+      params = params.append('userId', filterData.userId.toString());
+    }
+
+    return this.getPaginatedResults<IUser[]>(environment.apiUrl + this.CONTROLLER , params);
+  }
+
+  private getPaginatedResults<T>(url, params) {
+
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+    return this.http.get<T>(url, { observe: 'response', params }).pipe(
+      map(response => {
+        paginatedResult.result = response.body;
+        if (response.headers.get('pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('pagination'));
+        }
+        return paginatedResult;
+      })
+    );
+  }
+
+  private getPaginationHeaders(pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+      params = params.append('pageNumber', pageNumber.toString());
+      params = params.append('pageSize', pageSize.toString());
+    
+    return params;
   }
 
   deleteUser(id) {

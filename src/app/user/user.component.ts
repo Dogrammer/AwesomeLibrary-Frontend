@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
+import { Pagination } from '../helpers/pagination';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 import { ModalAddOrEditUserComponent } from '../modals/modal-add-or-edit-user/modal-add-or-edit-user.component';
 import { IUser } from '../models/user';
+import { UserParams } from '../models/userParams';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -15,13 +18,19 @@ import { UserService } from '../services/user.service';
 export class UserComponent implements OnInit {
 
   users: IUser[] = [];
-
+  pagination: Pagination;
+  userParams:  UserParams = new UserParams;
   loadingIndicator = true;
   reorderable = true;
+
+  userGroup: FormGroup = this.formBuilder.group({
+    userId: [null],
+  });
 
   constructor(
     private ngbModalService: NgbModal,
     private userService: UserService, 
+    private formBuilder: FormBuilder
               // public dialog: MatDialog,
               // private toastr: ToastrService,
               // private toastr: ToastrService,
@@ -32,8 +41,17 @@ export class UserComponent implements OnInit {
   }
 
   getUsers() {
+    // this.userService.getUsersPagination(this.userParams, this.userGroup.value).subscribe(
+      
+    //   data => {
+    //      this.users = data.result;
+    //      this.pagination = data.pagination;
+    //     //  this.spinnerService.hide();
+    //     })
     this.userService.getUsers().subscribe(
-      data => { this.users = data; console.log(this.users)}
+      data => {
+        this.users = data;
+      }
     )
   }
 
@@ -103,6 +121,11 @@ export class UserComponent implements OnInit {
       // this.filterProgrammeType();
     }, 200)
     }).catch((res) => {});
+  }
+
+  pageChanged(event: any){
+    this.userParams.pageNumber = event.page;
+    this.getUsers();
   }
 
 }

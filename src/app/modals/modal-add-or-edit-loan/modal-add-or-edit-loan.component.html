@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h5 class="modal-title text-primary" id="modal-title"><strong>{{ title }}</strong></h5>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="loanGroup" #myForm="ngForm">
+      <div class="card-body" *ngIf="action == 'add' || action == 'edit'">
+        <!-- <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+          <label for="file">Slika apartmana</label>
+          <input 
+              formControlName="file"
+              id="file" 
+              type="file" 
+              class="form-control"
+              (change)="onFileChange($event)">
+          <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+              <div *ngIf="f.file.errors.required">File is required.</div>
+          </div>
+      </div> -->
+      <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+        <label for="apartmentTypeId" class="required">User</label>
+        <ng-select [items]="users" bindLabel="fullName"  bindValue="id" labelForId="state" placeholder="Izaberi..."
+          clearAllText="Clear" formControlName="userId" 
+          [ngClass]="{'is-invalid': userId.invalid && (userId.dirty || userId.touched || myForm.submitted)}">
+        </ng-select>
+        <div class="invalid-feedback">Polje je obavezno</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6  mb-3">
+          <label for="dateLoaned" class="required">Date loaned</label>
+          <input type="datetime-local" class="form-control" id="dateLoaned" name="dateLoaned" placeholder="date loaned..."
+            formControlName="dateLoaned"
+            [ngClass]="{'is-invalid': dateLoaned.invalid && (dateLoaned.dirty || dateLoaned.touched || myForm.submitted)}"
+            autocomplete="off">
+          <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6  mb-3">
+            <label for="dateDue" class="required">Date due</label>
+            <input type="datetime-local" class="form-control" id="dateDue" name="dateDue"
+              formControlName="dateDue"
+              [ngClass]="{'is-invalid': dateDue.invalid && (dateDue.dirty || dateDue.touched || myForm.submitted)}"
+              autocomplete="off">
+            <div class="invalid-feedback">Polje je obavezno</div>
+          </div>
+      </div>
+        
+  
+      </div>
+
+      <!-- loan book part -->
+      <div class="header2">
+        <h5 class="text-primary ml-4">Add Book</h5>
+        <button class="btn float-right" (click)="addLoanBooks()" ><i id="add" class="material-icons text-primary">add</i></button>
+    </div>
+    <div class="row">
+        <div formArrayName="loanBookRequests" *ngFor="let detail of loanBookControls; let i = index">
+            <div [formGroupName]="i"> 
+              <div class="row mb-3">
+                <div class="col-lg-7 col-md-7 col-sm-7 mb-3">
+                    <label for="bookId" class="required">Book</label>
+                    <ng-select [items]="books" bindLabel="title" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                      clearAllText="Clear" formControlName="bookId" 
+                      >
+                    </ng-select>
+                    <!-- <div class="invalid-feedback">Polje je obavezno</div> -->
+                  </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 mb-3">
+                  <label for="dateFrom">Quantity</label>
+                  <input type="number" class="form-control" id="dateFrom" formControlName="quantity" placeholder="..1,2,3" >
+                </div>
+                
+                <div class="col-lg-3 col-md-3 col-sm-3 mb-3">
+                <button class="btn btn-danger" (click)= "removeLoanBook(i)">Delete</button>   
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    </div>
+      
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button type="button" class="btn btn-outline-secondary btn-rounded" (click)="modal.close()">Odustani</button>
+        <!-- Edit button -->
+         <!-- [disabled]="!otherChildGroup.valid"  -->
+        <!-- <button *ngIf="action === 'edit'" [disabled]="!apartmentGroupGroup.valid" type="button" ngbAutofocus
+          class="btn btn-primary btn-rounded" (click)="submit()">Spremi</button> -->
+        <!-- Create button -->
+        <!--  -->
+        <button [disabled]="!loanGroup.valid" *ngIf="action === 'add' || action === 'edit'" type="button" ngbAutofocus
+          class="btn btn-primary btn-rounded" (click)="submit()">Spremi</button>
+        <!-- Delete button -->
+        <!-- <button *ngIf="action === 'delete'" type="button" ngbAutofocus (click)="deleteApartmentGroup()" class="btn btn-danger btn-rounded" >Potvrdi</button> -->
+      </div>
+    </form>
+  </div>
+  

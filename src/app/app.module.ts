@@ -12,6 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalAddOrEditUserComponent } from './modals/modal-add-or-edit-user/modal-add-or-edit-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationModalComponent } from './modals/confirmation-modal/confirmation-modal.component';
+import { ModalAddOrEditLoanComponent } from './modals/modal-add-or-edit-loan/modal-add-or-edit-loan.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalReturnBooksComponent } from './modals/modal-return-books/modal-return-books.component';
+// import { PaginationModule } from 'ngx-bootstrap/pagination/';
 
 
 @NgModule({
@@ -20,7 +24,9 @@ import { ConfirmationModalComponent } from './modals/confirmation-modal/confirma
     UserComponent,
     LoanComponent,
     ModalAddOrEditUserComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ModalAddOrEditLoanComponent,
+    ModalReturnBooksComponent
   ],
   imports: [
     BrowserModule,
@@ -30,14 +36,19 @@ import { ConfirmationModalComponent } from './modals/confirmation-modal/confirma
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    NgSelectModule,
+    // PaginationModule.forRoot(),
 
     MatIconModule,
   ],
   entryComponents: [
     ModalAddOrEditUserComponent,
-    ConfirmationModalComponent
+    ModalAddOrEditLoanComponent,
+    ConfirmationModalComponent,
+    ModalReturnBooksComponent
     
 ],
+  // exports: [PaginationModule  ],
   providers: [],
   bootstrap: [AppComponent]
 })
