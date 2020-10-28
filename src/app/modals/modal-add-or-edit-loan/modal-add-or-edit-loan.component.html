@@ -17,7 +17,7 @@
           </div>
       </div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-        <label for="apartmentTypeId" class="required">User</label>
+        <label for="users" class="required">User</label>
         <ng-select [items]="users" bindLabel="fullName"  bindValue="id" labelForId="state" placeholder="Izaberi..."
           clearAllText="Clear" formControlName="userId" 
           [ngClass]="{'is-invalid': userId.invalid && (userId.dirty || userId.touched || myForm.submitted)}">

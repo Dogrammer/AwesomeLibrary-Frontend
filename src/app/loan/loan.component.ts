@@ -7,7 +7,10 @@ import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirm
 import { ModalAddOrEditLoanComponent } from '../modals/modal-add-or-edit-loan/modal-add-or-edit-loan.component';
 import { ModalReturnBooksComponent } from '../modals/modal-return-books/modal-return-books.component';
 import { ILoan } from '../models/loan';
+import { LoanParams } from '../models/loanParams';
+import { IUser } from '../models/user';
 import { LoanService } from '../services/loan.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-loan',
@@ -15,31 +18,43 @@ import { LoanService } from '../services/loan.service';
   styleUrls: ['./loan.component.scss']
 })
 export class LoanComponent implements OnInit {
-
+  
+  users: IUser[] = [];
   loans: ILoan[] = [];
   pagination: Pagination;
-  // userParams:  UserParams = new UserParams;
+  loanParams:  LoanParams = new LoanParams;
   loadingIndicator = true;
   reorderable = true;
 
-  userGroup: FormGroup = this.formBuilder.group({
+  loanGroup: FormGroup = this.formBuilder.group({
     userId: [null],
   });
 
   constructor(
     private ngbModalService: NgbModal,
     private loanService: LoanService, 
+    private userService: UserService,
     private formBuilder: FormBuilder
               // public dialog: MatDialog,
               // private toastr: ToastrService,
               // private toastr: ToastrService,
-              ) { }
+              ) {
+                this.loanParams = this.loanService.getLoanParams();
+               }
 
   ngOnInit(): void {
+    this.getUsers();
     this.getLoans();
   }
 
   getLoans() {
+    this.loanService.getLoansPagination(this.loanParams, this.loanGroup.value).subscribe(
+      data => {
+        
+         this.loans = data.result;
+         this.pagination = data.pagination;
+        //  this.spinnerService.hide();
+        })
     // this.userService.getUsersPagination(this.userParams, this.userGroup.value).subscribe(
       
     //   data => {
@@ -47,11 +62,11 @@ export class LoanComponent implements OnInit {
     //      this.pagination = data.pagination;
     //     //  this.spinnerService.hide();
     //     })
-    this.loanService.getLoans().subscribe(
-      data => {
-        this.loans = data;
-      }
-    )
+    // this.loanService.getLoans().subscribe(
+    //   data => {
+    //     this.loans = data;
+    //   }
+    // )
   }
 
   // navigateToDetails(id) {
@@ -148,9 +163,24 @@ export class LoanComponent implements OnInit {
     }).catch((res) => {});
   }
 
-  // pageChanged(event: any){
-  //   this.userParams.pageNumber = event.page;
-  //   this.getUsers();
-  // }
+  getUsers() {
+    this.userService.getUsers().subscribe(
+      data => {
+        this.users = data.map((i) => { i.fullName = i.firstName + ' ' + i.lastName; return i; })
+      }
+    )
+  }
+
+  pageChanged(event: any){
+    this.loanParams.pageNumber = event.page;
+    this.getLoans();
+  }
+
+  resetFilters() {
+    // this.apartmentGroupParams = new ApartmentGroupParams;
+    // this.getApartmentGroups();
+    this.loanGroup.reset();
+    // this.getApartmentGroups();
+  }
 
 }

@@ -13,13 +13,20 @@
       <form [formGroup]="userGroup"  #form="ngForm" class="form-inline mb-3"  autocomplete="off">
         
         <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-         <label id="users" for="users" class="required">Order by:</label>
+         <label id="users" for="users" >Order by:</label>
          <ng-select [items]="orderByValues" bindLabel="name" bindValue="value" labelForId="state" placeholder="Izaberi..."
-         (change) = "sortby()"
+         (change) = "search()"
            clearAllText="Clear" formControlName="orderBy"
            >
          </ng-select>
          <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <button class="btn btn-danger mt-2 ml-5" (click)="search()">Search</button>
+        <div class="col-sm-3 col-md-3 col-lg-3  mb-3">
+          <label  for="searchLastName" >Search last name</label>
+          <input type="text" class="form-control ml-4" id="searchLastName" name="name" placeholder="enter last name.."
+            formControlName="searchLastName"
+            autocomplete="off">
         </div>
       </form>
        <!-- <button type="submit" class="btn btn-outline-primary">Filtriraj</button> -->

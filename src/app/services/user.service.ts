@@ -42,6 +42,10 @@ export class UserService {
     if (filterData && filterData.orderBy) {
       params = params.append('orderBy', filterData.orderBy.toString());
     }
+
+    if (filterData && filterData.searchLastName.length > 0) {
+      params = params.append('searchLastName', filterData.searchLastName);
+    }
     // params = params.append('orderBy', userParams.orderBy);
 
     return this.getPaginatedResults<IUser[]>(environment.apiUrl + this.CONTROLLER , params);

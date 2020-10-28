@@ -27,6 +27,7 @@ export class UserComponent implements OnInit {
 
   userGroup: FormGroup = this.formBuilder.group({
     orderBy: ['lastname_asc'],
+    searchLastName: ['']
   });
 
   
@@ -63,7 +64,9 @@ export class UserComponent implements OnInit {
   }
 
   getUsers() {
-    // console.log('paramsloggetusers', this.userParams);
+    // console.log('paramsloggetusers', this.userParams)
+    
+    
 
     this.userService.getUsersPagination(this.userParams, this.userGroup.value).subscribe(
       data => {
@@ -79,9 +82,8 @@ export class UserComponent implements OnInit {
     // )
   }
 
-  sortby() {
+  search() {
     this.getUsers();
-    
   }
 
   navigateToDetails(id) {
@@ -178,8 +180,6 @@ export class UserComponent implements OnInit {
   }
 
   pageChanged(event: any){
-    console.log(this.userParams);
-    
     this.userParams.pageNumber = event.page;
     this.getUsers();
   }
