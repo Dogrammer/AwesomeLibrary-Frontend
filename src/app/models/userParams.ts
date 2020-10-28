@@ -1,6 +1,9 @@
 export class UserParams {
-    pageNumber = 1;
-    pageSize = 5;
-    orderBy = 'lastname_asc';
-   
+    // userId: number;
+    pageNumber: number = 1;
+    pageSize: number = 5;
+    
+
+    constructor () {
+    }
 }

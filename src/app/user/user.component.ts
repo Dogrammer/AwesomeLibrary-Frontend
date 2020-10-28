@@ -20,8 +20,8 @@ export class UserComponent implements OnInit {
 
   users: IUser[] = [];
   pagination: Pagination;
+  userParams:  UserParams = new UserParams;
   orderByValues: any[] = [];
-  userParams:  UserParams;
   loadingIndicator = true;
   reorderable = true;
 
@@ -35,11 +35,17 @@ export class UserComponent implements OnInit {
     private ngbModalService: NgbModal,
     private router: Router,
     private userService: UserService, 
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
               // public dialog: MatDialog,
               // private toastr: ToastrService,
               // private toastr: ToastrService,
-              ) { }
+              ) 
+              { 
+    this.userParams = this.userService.getUserParams();
+    console.log(this.userParams);
+    
+
+              }
 
   ngOnInit(): void {
     this.getUsers();
@@ -172,8 +178,10 @@ export class UserComponent implements OnInit {
   }
 
   pageChanged(event: any){
+    console.log(this.userParams);
+    
     this.userParams.pageNumber = event.page;
-    // this.getUsers();
+    this.getUsers();
   }
 
 }

@@ -21,10 +21,11 @@
          </ng-select>
          <div class="invalid-feedback">Polje je obavezno</div>
         </div>
+      </form>
        <!-- <button type="submit" class="btn btn-outline-primary">Filtriraj</button> -->
        <!-- <button type="submit" class="btn btn-outline-secondary ml-2" (click)="resetFilters()">Ukloni filter</button>
  
-      </form>
+      </form> 
     </div>
  
      
@@ -75,11 +76,9 @@
          </tbody>
        </table>
 
-       <div class="card-footer pb-0 pt-3">
-        <jw-pagination [items]="users" (changePage)="pageChanged($event)"></jw-pagination>
-    </div>
+       
  
-       <!-- <div class="float-right" *ngIf="pagination">
+       <div class="float-right" *ngIf="pagination">
          <pagination 
            [boundaryLinks]="true" 
            [totalItems]="pagination.totalItems"
@@ -91,7 +90,7 @@
            firstText="&laquo;" 
            lastText="&raquo;">
          </pagination>
-       </div>  -->
+       </div> 
        
        
  

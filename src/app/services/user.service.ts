@@ -12,6 +12,8 @@ import { UserParams } from '../models/userParams';
 })
 export class UserService {
 
+  userParams: UserParams = new UserParams;
+
   constructor(private http: HttpClient) { }
 
   private readonly CONTROLLER = 'User';
@@ -25,11 +27,15 @@ export class UserService {
     );
   }
 
+  getUserParams() {
+    return this.userParams;
+  }
+
   getUsersPagination(userParams: UserParams, filterData ) {
     console.log('params', userParams);
     
     // let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-    let params = this.getPaginationHeaders(1, 5);
+    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
     
     
