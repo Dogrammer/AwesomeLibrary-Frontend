@@ -19,6 +19,7 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
 import { UserLoanHistoryComponent } from './user-loan-history/user-loan-history.component';
 import { ModalLoanDetailComponent } from './modals/modal-loan-detail/modal-loan-detail.component';
 import { ModalContactsComponent } from './modals/modal-contacts/modal-contacts.component';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { ModalContactsComponent } from './modals/modal-contacts/modal-contacts.c
     ReactiveFormsModule,
     NgbModule,
     NgSelectModule,
+    SharedModule,
 
     MatIconModule,
   ],

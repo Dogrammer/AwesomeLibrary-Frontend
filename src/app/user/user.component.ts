@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
   users: IUser[] = [];
   pagination: Pagination;
   orderByValues: any[] = [];
-  userParams:  UserParams = new UserParams();
+  userParams:  UserParams;
   loadingIndicator = true;
   reorderable = true;
 
