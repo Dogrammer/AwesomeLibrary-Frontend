@@ -26,13 +26,17 @@ export class UserService {
   }
 
   getUsersPagination(userParams: UserParams, filterData ) {
+    console.log('params', userParams);
     
-    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-    console.log(filterData);
+    // let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    let params = this.getPaginationHeaders(1, 5);
+
     
-    if (filterData && filterData.userId > 0) {
-      params = params.append('userId', filterData.userId.toString());
+    
+    if (filterData && filterData.orderBy) {
+      params = params.append('orderBy', filterData.orderBy.toString());
     }
+    // params = params.append('orderBy', userParams.orderBy);
 
     return this.getPaginatedResults<IUser[]>(environment.apiUrl + this.CONTROLLER , params);
   }

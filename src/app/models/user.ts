@@ -6,5 +6,6 @@ export interface IUser {
     lastName: string;
     fullName: string;
     dateOfBirth: Date;
+    totalOverdue: number;
     contacts: Array<IContact>
 }

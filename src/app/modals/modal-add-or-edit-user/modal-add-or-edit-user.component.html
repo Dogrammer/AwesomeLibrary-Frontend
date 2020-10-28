@@ -16,7 +16,7 @@
               <div *ngIf="f.file.errors.required">File is required.</div>
           </div>
       </div> -->
-      <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+      <div *ngIf="action === 'add'" class="col-sm-12 col-md-12 col-lg-12 mb-3">
         <label for="file">ID Card - back-side</label>
         <input 
             formControlName="file"

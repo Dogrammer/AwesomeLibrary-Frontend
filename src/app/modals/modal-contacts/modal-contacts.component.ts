@@ -2,20 +2,20 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-modal-return-books',
-  templateUrl: './modal-return-books.component.html',
-  styleUrls: ['./modal-return-books.component.scss']
+  selector: 'app-modal-contacts',
+  templateUrl: './modal-contacts.component.html',
+  styleUrls: ['./modal-contacts.component.scss']
 })
-export class ModalReturnBooksComponent implements OnInit {
+export class ModalContactsComponent implements OnInit {
 
   @Input() title: string;
   @Input() description: string;
-  @Input() books : any;
+  @Input() contacts : any;
   
   constructor(public modal: NgbActiveModal) {}
 
   ngOnInit() {
-    console.log(this.books);
+    console.log(this.contacts);
     
   }
 

@@ -61,7 +61,7 @@
 
              <!-- <td><button class="btn" (click)="openAddUserModal(item)" ><i class="edit-icon material-icons">edit</i></button></td> -->
              <td><button class="btn" (click)="deleteLoan(item.id)" ><i class="edit-icon material-icons text-danger">delete_forever</i></button></td>
-             <td><button class="btn" (click)="returnLoan(item.id, item)" ><i class="edit-icon material-icons text-danger">edit</i></button></td>
+             <td><button [disabled]="item.dateReturned" class="btn btn-outline-primary" (click)="returnLoan(item.id, item)" >Return</button></td>
 
  
  

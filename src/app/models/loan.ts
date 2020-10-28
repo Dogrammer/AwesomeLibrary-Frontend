@@ -1,3 +1,5 @@
+import { IBook } from './book';
+import { ILoanBookRequest } from './loan-book-request';
 import { ILoanStatus } from './loan-status';
 import { IUser } from './user';
 
@@ -10,4 +12,5 @@ export interface ILoan {
     dateReturned: Date;
     loanStatusId: number;
     loanStatus: ILoanStatus;
+    bookLoans: Array<ILoanBookRequest>;
 }

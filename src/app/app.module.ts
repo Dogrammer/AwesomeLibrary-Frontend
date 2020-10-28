@@ -15,7 +15,10 @@ import { ConfirmationModalComponent } from './modals/confirmation-modal/confirma
 import { ModalAddOrEditLoanComponent } from './modals/modal-add-or-edit-loan/modal-add-or-edit-loan.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalReturnBooksComponent } from './modals/modal-return-books/modal-return-books.component';
-// import { PaginationModule } from 'ngx-bootstrap/pagination/';
+import { JwPaginationComponent } from 'jw-angular-pagination';
+import { UserLoanHistoryComponent } from './user-loan-history/user-loan-history.component';
+import { ModalLoanDetailComponent } from './modals/modal-loan-detail/modal-loan-detail.component';
+import { ModalContactsComponent } from './modals/modal-contacts/modal-contacts.component';
 
 
 @NgModule({
@@ -26,7 +29,11 @@ import { ModalReturnBooksComponent } from './modals/modal-return-books/modal-ret
     ModalAddOrEditUserComponent,
     ConfirmationModalComponent,
     ModalAddOrEditLoanComponent,
-    ModalReturnBooksComponent
+    ModalReturnBooksComponent,
+    JwPaginationComponent,
+    UserLoanHistoryComponent,
+    ModalLoanDetailComponent,
+    ModalContactsComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +44,6 @@ import { ModalReturnBooksComponent } from './modals/modal-return-books/modal-ret
     ReactiveFormsModule,
     NgbModule,
     NgSelectModule,
-    // PaginationModule.forRoot(),
 
     MatIconModule,
   ],
@@ -45,7 +51,9 @@ import { ModalReturnBooksComponent } from './modals/modal-return-books/modal-ret
     ModalAddOrEditUserComponent,
     ModalAddOrEditLoanComponent,
     ConfirmationModalComponent,
-    ModalReturnBooksComponent
+    ModalReturnBooksComponent,
+    ModalLoanDetailComponent,
+    ModalContactsComponent
     
 ],
   // exports: [PaginationModule  ],

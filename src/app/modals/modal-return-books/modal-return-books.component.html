@@ -3,11 +3,8 @@
   </div>
   <div class="modal-body">
     <p><strong>{{ description }}</strong></p>
-    <ul>
-        <li>Test: 5</li>
-        <li>Test: 5</li>
-        <li>Test: 5</li>
-
+    <ul *ngFor="let item of books.bookLoans">
+      <li>{{item.book.title}} | Quantity: {{item.quantity}}</li>
     </ul>
   </div>
   <div class="modal-footer">

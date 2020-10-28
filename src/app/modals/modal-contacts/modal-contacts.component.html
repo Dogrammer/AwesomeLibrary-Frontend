@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h4 class="modal-title text-primary" id="modal-title">{{ title }}</h4>
+  </div>
+  <div class="modal-body">
+    <!-- <p><strong>{{ description }}</strong></p> -->
+    <table class="table table-striped table-light">
+        <thead>
+          <tr>
+            <th scope="col">Phone number</th>
+            <th scope="col">Mobile number</th>
+            <th scope="col">Email address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of contacts.contacts">
+            <td>{{item.phoneNumber}}</td>
+            <td>{{item.mobileNumber}}</td>
+            <td>{{item.emailAddress}}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary mr-auto" (click)="modal.close(false)">Close</button>
+    <!-- <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">Potvrdi</button> -->
+  </div>
