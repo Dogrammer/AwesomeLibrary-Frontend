@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { LibraryResponse } from '../models/library-response';
 import { ILoan } from '../models/loan';
 
 @Injectable({
@@ -15,11 +16,12 @@ export class HistoryService {
 
   constructor(private http: HttpClient) { }
 
-  getLoansForUser(userId: number): Observable<ILoan[]> {
-    return this.http.get<ILoan[]>(environment.apiUrl + this.CONTROLLER_LOAN + '/' +  userId).pipe(
+  getLoansForUser(userId: number): Observable<any[]> {
+    return this.http.get<LibraryResponse<ILoan[]>>(environment.apiUrl + this.CONTROLLER_LOAN + '/' +  userId).pipe(
       map( data => {
-        return data
+        return data.response
       })
     );
   }
+  
 }

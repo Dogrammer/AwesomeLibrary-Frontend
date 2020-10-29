@@ -36,8 +36,6 @@ export class UserService {
     
     // let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
     let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-
-    
     
     if (filterData && filterData.orderBy) {
       params = params.append('orderBy', filterData.orderBy.toString());
@@ -46,7 +44,6 @@ export class UserService {
     if (filterData && filterData.searchLastName.length > 0) {
       params = params.append('searchLastName', filterData.searchLastName);
     }
-    // params = params.append('orderBy', userParams.orderBy);
 
     return this.getPaginatedResults<IUser[]>(environment.apiUrl + this.CONTROLLER , params);
   }
@@ -100,42 +97,4 @@ export class UserService {
       })
     );
   }
-
-
-
-  // checkAvailability(checkAvailabilityData)  {
-  //   console.log('usao', checkAvailabilityData);
-    
-  //   return this.http.post(environment.apiUrl + this.CONTROLER_NAME_RESERVATION + '/checkAvailability', checkAvailabilityData).pipe(
-  //     map( data => {
-  //       return data
-  //     })
-  //   );
-  // }
-
-  // getCurrentPricingPeriod(apartmentId): Observable<IPricingPeriodDetail> {
-  //   return this.http.get<IPricingPeriodDetail>(environment.apiUrl + this.CONTROLER_NAME_PRICING_PERIOD + '/getCurrentPricingPeriod/' + apartmentId).pipe(
-  //     map( data => {
-  //       return data
-  //     })
-  //   );
-  // }
-
-  // getPrice(priceData) {
-  //   return this.http.post(environment.apiUrl + this.CONTROLER_NAME_RESERVATION + '/getPrice', priceData).pipe(
-  //     map( data => {
-  //       return data
-  //     })
-  //   );
-  // }
-
-  
-
-  // sendReservation(reservationData) {
-  //   return this.http.post(environment.apiUrl + this.CONTROLER_NAME_RESERVATION + '/reservations/', reservationData).pipe(
-  //     map( data => {
-  //       return data
-  //     })
-  //   );
-  // }
 }

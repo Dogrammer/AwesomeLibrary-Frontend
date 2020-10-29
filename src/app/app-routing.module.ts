@@ -17,6 +17,9 @@ const routes: Routes = [
   {
     path: 'users/:id/loan-history',
     component: UserLoanHistoryComponent
+  },
+  {
+    path: '', redirectTo: 'loans', pathMatch: 'full'
   }
 ];
 

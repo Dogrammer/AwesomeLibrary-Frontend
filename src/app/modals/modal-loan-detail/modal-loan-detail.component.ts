@@ -15,8 +15,6 @@ export class ModalLoanDetailComponent implements OnInit {
   constructor(public modal: NgbActiveModal) {}
 
   ngOnInit() {
-    console.log(this.books);
-    
   }
 
 }

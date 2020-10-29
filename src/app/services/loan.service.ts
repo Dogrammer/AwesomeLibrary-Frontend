@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PaginatedResult } from '../helpers/pagination';
+import { LibraryResponse } from '../models/library-response';
 import { ILoan } from '../models/loan';
 import { LoanParams } from '../models/loanParams';
 
@@ -19,23 +20,20 @@ export class LoanService {
 
   constructor(private http: HttpClient) { }
 
-  getLoans(): Observable<ILoan[]> {
-    return this.http.get<ILoan[]>(environment.apiUrl + this.CONTROLLER).pipe(
-      map( data => {
-        return data
-      })
-    );
-  }
+  // getLoans(): Observable<ILoan[]> {
+  //   return this.http.get<ILoan[]>(environment.apiUrl + this.CONTROLLER).pipe(
+  //     map( data => {
+  //       return data
+  //     })
+  //   );
+  // }
   getLoanParams() {
     return this.loanParams;
   }
 
   getLoansPagination(loanParams: LoanParams, filterData ) {
     
-    // let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
     let params = this.getPaginationHeaders(loanParams.pageNumber, loanParams.pageSize);
-
-    
     
     if (filterData && filterData.userId) {
       params = params.append('userId', filterData.userId.toString());
@@ -75,11 +73,9 @@ export class LoanService {
   }
 
   saveLoan(loanData) {
-    console.log(loanData);
-    
-    return this.http.post(environment.apiUrl + this.CONTROLLER + '/createLoan', loanData).pipe(
+    return this.http.post<LibraryResponse<any>>(environment.apiUrl + this.CONTROLLER + '/createLoan', loanData).pipe(
       map( data => {
-        return data
+        return data;
       })
     );
   }

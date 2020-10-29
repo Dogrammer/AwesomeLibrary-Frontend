@@ -78,19 +78,19 @@
 }
 }
 
-.kurac {
+.iconA {
   opacity: 1;
   transition: 0.3s;
 display: flex;
 flex-wrap: wrap;
 }
 
-.kurac p {
+.iconA p {
   width: 80%;
   margin-top: 5%;
 }
 
-.kurac i {
+.iconA i {
   width: 20%;
   margin-top: 3%;
 }
@@ -100,27 +100,6 @@ flex-wrap: wrap;
   padding-left: 8px;
 }
 
-
-
-
-.kuracD {
-  opacity: 1;
-  transition: 0.3s;
-  display: flex;
-  flex-wrap: wrap;
-  }
-  
-  .kuracD p {
-    
-    width: 75%;
-    margin-top: 5%;
-  }
-  
-  .kuracD i {
-    margin-left: 20px;
-    width: 15%;
-    margin-top: 3%;
-  }
 
   .sidebar-wrapper {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

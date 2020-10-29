@@ -15,8 +15,6 @@ export class ModalContactsComponent implements OnInit {
   constructor(public modal: NgbActiveModal) {}
 
   ngOnInit() {
-    console.log(this.contacts);
-    
   }
 
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IBook } from '../models/book';
+import { LibraryResponse } from '../models/library-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,12 @@ export class BookService {
 
   constructor(private http: HttpClient) { }
 
-  getBooks(): Observable<IBook[]> {
-    return this.http.get<IBook[]>(environment.apiUrl + this.CONTROLLER).pipe(
+  getBooks(): Observable<any[]> {
+    return this.http.get<LibraryResponse<IBook[]>>(environment.apiUrl + this.CONTROLLER).pipe(
       map( data => {
-        return data
+        return data.response
       })
     );
   }
+  
 }

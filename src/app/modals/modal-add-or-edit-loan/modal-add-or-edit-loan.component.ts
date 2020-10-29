@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { error } from 'protractor';
 import { IBook } from 'src/app/models/book';
 import { ILoanBookRequest } from 'src/app/models/loan-book-request';
 import { IUser } from 'src/app/models/user';
@@ -24,23 +25,12 @@ export class ModalAddOrEditLoanComponent implements OnInit {
   loanBookRequests: ILoanBookRequest[] = [];
   isAdmin;
   loanGroup: FormGroup;
-  // userGroup: FormGroup = this.formBuilder.group({
-  //   firstName: ['', Validators.required],
-  //   lastName: [''],
-  //   dateOfBirth: [],
-  //   // file: [''],
-  //   // fileSource: ['']
-  //   // userName: ['', Validators.required]
-  //   // isActive: [true],
-  //   // activeFrom: [ new Date()],
-  //   // activeTo: [this.tenYearsFromNow]
-  // });
+  
   constructor(
     public modal: NgbActiveModal,
     public formBuilder: FormBuilder,
     private userService: UserService,
     private bookService: BookService,
-    // private http: HttpClient,
     private loanService: LoanService,
   )
     
@@ -57,35 +47,6 @@ export class ModalAddOrEditLoanComponent implements OnInit {
         this.addLoanBookRequestsForm()
       ])
     });
-    
-    // this.checkIfAdmin();
-    // this.getApartmentManagers();
-    // if(this.row && this.action == 'edit') {
-    //   this.loanBookRequests = this.row.contacts;
-    //   this.userGroup.setControl('contacts', this.setExistingContacts(this.contacts))
-      
-    //   this.userGroup.patchValue({
-    //     firstName: this.row.firstName,
-    //     lastName: this.row.lastName,
-    //     dateOfBirth: this.row.dateOfBirth,
-    //     // contacts: this.row.contacts,
-        
-    //     // file: this.row.imageFilePath,
-    //     // userName: this.row.user.userName
-    //     // isActive: this.row.isActive,
-    //     // activeFrom: this.row.activeFrom,
-    //   });
-    //   console.log(this.row);
-    //   console.log('controle edit', this.userGroup.value);
-      
-
-      
-
-    // }
-
-    console.log(this.row);
-    
-
     
   }
 
@@ -104,52 +65,6 @@ export class ModalAddOrEditLoanComponent implements OnInit {
       }
     )
   }
-
-
-  // getApartmentManagers() {
-  //   this.authService.getApartmentManagers().subscribe(
-  //     data => { this.users = data; console.log(this.users)}
-  //   )
-  // }
-
-  // checkIfAdmin() {
-  //   this.authService.checkIfAdmin().subscribe(
-  //     data => { this.isAdmin = data; console.log(this.isAdmin)}
-  //   )
-  // }
-  
-  // saveApartmentGroup()  {
-  //   if(!this.apartmentGroupGroup.valid) {
-  //     return;
-  //   } else {
-  //     console.log('validna forma');
-      
-  //     this.apartmentGroupService.saveApartmentGroup(this.apartmentGroupGroup.value).pipe(take(1)).subscribe(data => {
-  //       this.modal.close('add')
-  //     });
-  //   }
-  // }
-
-  // editApartmentGroup()  {
-  //   if(!this.apartmentGroupGroup.valid) {
-  //     return;
-  //   } else {
-  //     this.apartmentGroupService.editApartmentGroup(this.row.id, this.apartmentGroupGroup.value).pipe(take(1)).subscribe(data => {
-  //       this.modal.close('add') 
-  //     });
-  //   }
-  // }
-
-
-  // upload
-  // onFileChange(event) {
-  //   if (event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.apartmentGroupGroup.patchValue({
-  //       fileSource: file
-  //     });
-  //   }
-  // }
     
   //upload
   submit(){
@@ -168,43 +83,15 @@ export class ModalAddOrEditLoanComponent implements OnInit {
       
       this.loanService.saveLoan(this.loanGroup.value).subscribe(
         data => {
-          this.modal.close('add');
+          this.modal.close(data.response);
         }
-      )
+      ), error => {
+        // this.modal.close(error);
+        console.log(error);
+      }
     }
-
-    
-    // console.log('forma', this.apartmentGroupGroup.value);
-    
-    // const formData = new FormData();
-    // formData.append('file', this.apartmentGroupGroup.get('fileSource').value);
-    // formData.append('name', this.name.value);
-    // formData.append('description', this.description.value);
-    // formData.append('userId', this.userId.value);
-    // console.log('formdata=', formData);
-    
-
-    // if(this.row && this.action == 'edit') {
-    //   this.http.put('https://localhost:5001/api/ApartmentGroup/editApartmentGroup/' + this.row.id, formData).subscribe(
-    //     data => {
-    //       //toaster uploaded successfully
-    //       this.modal.close('edit');
-    //     }
-    //   );
-    // }
-
-    // else {
-    //   this.http.post('https://localhost:5001/api/ApartmentGroup/addApartmentGroup', formData).subscribe(
-    //     data => {
-    //       //toaster uploaded successfully
-    //       this.modal.close('add');
-    //     }
-    //   );
-    // }
     
   }
-
-  
 
   addLoanBookRequestsForm(): FormGroup {
     return this.formBuilder.group({
@@ -247,23 +134,8 @@ export class ModalAddOrEditLoanComponent implements OnInit {
     return this.loanGroup.get('dateLoaned');
   }
 
-  // get bookId(): AbstractControl {
-  //   return this.loanGroup.get('bookId');
-  // }
-
   get dateDue(): AbstractControl {
     return this.loanGroup.get('dateDue');
   }
-
-  // get f(){
-  //   return this.apartmentGroupGroup.controls;
-  // }
-
-  // get userName(): AbstractControl {
-  //   return this.apartmentGroupGroup.get('userName');
-  // }
-  // get requestTypePerAgeId(): AbstractControl {
-  //   return this.documentTypeGroup.get('requestTypePerAgeId');
-  // }
 
 }

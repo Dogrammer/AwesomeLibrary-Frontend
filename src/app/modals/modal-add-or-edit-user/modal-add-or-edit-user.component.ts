@@ -16,24 +16,14 @@ export class ModalAddOrEditUserComponent implements OnInit {
   @Input() row;
 
   users: any[] =[];
+  disableButton
   contacts: IContact[] = [];
   isAdmin;
   userGroup: FormGroup;
-  // userGroup: FormGroup = this.formBuilder.group({
-  //   firstName: ['', Validators.required],
-  //   lastName: [''],
-  //   dateOfBirth: [],
-  //   // file: [''],
-  //   // fileSource: ['']
-  //   // userName: ['', Validators.required]
-  //   // isActive: [true],
-  //   // activeFrom: [ new Date()],
-  //   // activeTo: [this.tenYearsFromNow]
-  // });
+  
   constructor(
     public modal: NgbActiveModal,
     public formBuilder: FormBuilder,
-    // private http: HttpClient,
     private userService: UserService,
   )
     
@@ -52,8 +42,6 @@ export class ModalAddOrEditUserComponent implements OnInit {
       ])
     });
     
-    // this.checkIfAdmin();
-    // this.getApartmentManagers();
     if(this.row && this.action == 'edit') {
       this.contacts = this.row.contacts;
       this.userGroup.setControl('contacts', this.setExistingContacts(this.contacts))
@@ -62,75 +50,13 @@ export class ModalAddOrEditUserComponent implements OnInit {
         firstName: this.row.firstName,
         lastName: this.row.lastName,
         dateOfBirth: this.row.dateOfBirth,
-        // contacts: this.row.contacts,
-        
-        // file: this.row.imageFilePath,
-        // userName: this.row.user.userName
-        // isActive: this.row.isActive,
-        // activeFrom: this.row.activeFrom,
       });
-      console.log(this.row);
-      console.log('controle edit', this.userGroup.value);
-      
-
-      
-
     }
-
-    console.log(this.row);
-    
-
-    
   }
-
-
-  // getApartmentManagers() {
-  //   this.authService.getApartmentManagers().subscribe(
-  //     data => { this.users = data; console.log(this.users)}
-  //   )
-  // }
-
-  // checkIfAdmin() {
-  //   this.authService.checkIfAdmin().subscribe(
-  //     data => { this.isAdmin = data; console.log(this.isAdmin)}
-  //   )
-  // }
-  
-  // saveApartmentGroup()  {
-  //   if(!this.apartmentGroupGroup.valid) {
-  //     return;
-  //   } else {
-  //     console.log('validna forma');
-      
-  //     this.apartmentGroupService.saveApartmentGroup(this.apartmentGroupGroup.value).pipe(take(1)).subscribe(data => {
-  //       this.modal.close('add')
-  //     });
-  //   }
-  // }
-
-  // editApartmentGroup()  {
-  //   if(!this.apartmentGroupGroup.valid) {
-  //     return;
-  //   } else {
-  //     this.apartmentGroupService.editApartmentGroup(this.row.id, this.apartmentGroupGroup.value).pipe(take(1)).subscribe(data => {
-  //       this.modal.close('add') 
-  //     });
-  //   }
-  // }
-
-
-  // upload
-  // onFileChange(event) {
-  //   if (event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.apartmentGroupGroup.patchValue({
-  //       fileSource: file
-  //     });
-  //   }
-  // }
     
   //upload
   submit(){
+    this.modal.close();
     console.log('forma :',this.userGroup.value);
 
     if (this.row) {
@@ -142,7 +68,6 @@ export class ModalAddOrEditUserComponent implements OnInit {
 
     }
     else {
-      console.log(this.userGroup.value.contacts);
       
       const formData = new FormData();
       formData.append('file', this.userGroup.get('fileSource').value);
@@ -155,36 +80,6 @@ export class ModalAddOrEditUserComponent implements OnInit {
         }
       )
     }
-
-    
-    // console.log('forma', this.apartmentGroupGroup.value);
-    
-    // const formData = new FormData();
-    // formData.append('file', this.apartmentGroupGroup.get('fileSource').value);
-    // formData.append('name', this.name.value);
-    // formData.append('description', this.description.value);
-    // formData.append('userId', this.userId.value);
-    // console.log('formdata=', formData);
-    
-
-    // if(this.row && this.action == 'edit') {
-    //   this.http.put('https://localhost:5001/api/ApartmentGroup/editApartmentGroup/' + this.row.id, formData).subscribe(
-    //     data => {
-    //       //toaster uploaded successfully
-    //       this.modal.close('edit');
-    //     }
-    //   );
-    // }
-
-    // else {
-    //   this.http.post('https://localhost:5001/api/ApartmentGroup/addApartmentGroup', formData).subscribe(
-    //     data => {
-    //       //toaster uploaded successfully
-    //       this.modal.close('add');
-    //     }
-    //   );
-    // }
-    
   }
 
   onFileChange(event) {
@@ -213,8 +108,6 @@ export class ModalAddOrEditUserComponent implements OnInit {
  }
 
  setExistingContacts(contacts: IContact[]) : FormArray { 
-  console.log('uso u existing', contacts);
-  
   const formArray = new FormArray([]);
   contacts.forEach(d => {
    formArray.push(this.formBuilder.group({
@@ -245,16 +138,5 @@ export class ModalAddOrEditUserComponent implements OnInit {
   get f(){
     return this.userGroup.controls;
   }
-
-  // get f(){
-  //   return this.apartmentGroupGroup.controls;
-  // }
-
-  // get userName(): AbstractControl {
-  //   return this.apartmentGroupGroup.get('userName');
-  // }
-  // get requestTypePerAgeId(): AbstractControl {
-  //   return this.documentTypeGroup.get('requestTypePerAgeId');
-  // }
 
 }

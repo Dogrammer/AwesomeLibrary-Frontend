@@ -1,6 +1,6 @@
 <div class="container mt-3">
     <div class="header">
-       <i id="ic" class="material-icons text-primary">deck</i>
+       <i id="ic" class="material-icons text-primary">today</i>
        <h3 class="text-black">Loans</h3>
        <button class="btn float-right" (click)="openLoanModal()" ><i id="add" class="material-icons text-primary">add_circle_outline</i></button>
     </div>
@@ -21,23 +21,6 @@
       </form>
     </div>
  
-     
-     
-   
-  
- 
-     <!-- <div *ngFor="let group of apartmentGroups" class="card mt-3">
-         <div class="card-header">
-           <a type="button" (click)="navigateToDetails(group.id)">{{group.name}}</a>
-         </div>
-         <div class="card-body">
-           <div *ngIf="group.image; then thenBlock else elseBlock"></div>
-           <ng-template #thenBlock><img src="../../../assets/apartmentgroup/img1.jpg" alt=""></ng-template>
-           <ng-template #elseBlock><img src="../../../assets/apartmentgroup/no-image.png" alt=""></ng-template>
-           <p class="card-text">{{group.description}}.</p>
-         </div>
-       </div>  -->
- 
        <table class="table table-striped table-light">
          <thead>
            <tr>
@@ -52,20 +35,14 @@
          <tbody>
            <tr *ngFor="let item of loans">
              
-             <!-- <td><button class="btn" (click)="navigateToDetails(item.id)" ><i class="edit-icon material-icons text-info">zoom_in</i></button></td> -->
              <td>{{item.user.firstName + ' ' + item.user.lastName}}</td>
              <td>{{item.loanStatus.name}}</td>
              <td>{{item.dateLoaned  | date: 'dd.MM.yyyy.'}}</td>
              <td>{{item.dateDue  | date: 'dd.MM.yyyy.'}}</td>
              <td>{{item.dateReturned  | date: 'dd.MM.yyyy.'}}</td>
 
-             <!-- <td><button class="btn" (click)="openAddUserModal(item)" ><i class="edit-icon material-icons">edit</i></button></td> -->
-             <td><button class="btn" (click)="deleteLoan(item.id)" ><i class="edit-icon material-icons text-danger">delete_forever</i></button></td>
+             <!-- <td><button class="btn" (click)="deleteLoan(item.id)" ><i class="edit-icon material-icons text-danger">delete_forever</i></button></td> -->
              <td><button [disabled]="item.dateReturned" class="btn btn-outline-primary" (click)="returnLoan(item.id, item)" >Return</button></td>
-
- 
- 
- 
            </tr>
            
          </tbody>
@@ -84,9 +61,6 @@
           lastText="&raquo;">
         </pagination>
       </div> 
-       
- 
-       
  </div>
  
        

@@ -4,18 +4,7 @@
   <div class="modal-body">
     <form [formGroup]="userGroup" #myForm="ngForm">
       <div class="card-body" *ngIf="action == 'add' || action == 'edit'">
-        <!-- <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-          <label for="file">Slika apartmana</label>
-          <input 
-              formControlName="file"
-              id="file" 
-              type="file" 
-              class="form-control"
-              (change)="onFileChange($event)">
-          <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-              <div *ngIf="f.file.errors.required">File is required.</div>
-          </div>
-      </div> -->
+        
       <div *ngIf="action === 'add'" class="col-sm-12 col-md-12 col-lg-12 mb-3">
         <label for="file">ID Card - back-side</label>
         <input 
@@ -43,7 +32,7 @@
               formControlName="lastName"
               [ngClass]="{'is-invalid': lastName.invalid && (lastName.dirty || lastName.touched || myForm.submitted)}"
               autocomplete="off">
-            <div class="invalid-feedback">Polje je obavezno</div>
+            <div class="invalid-feedback">Required field</div>
           </div>
           <div class="col-sm-12 col-md-12 col-lg-12  mb-3">
               <label for="dob" class="required">Date of birth</label>
@@ -51,7 +40,7 @@
                 formControlName="dateOfBirth"
                 [ngClass]="{'is-invalid': dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched || myForm.submitted)}"
                 autocomplete="off">
-              <div class="invalid-feedback">Polje je obavezno</div>
+              <div class="invalid-feedback">Required field</div>
             </div>
         </div>
   
@@ -84,21 +73,11 @@
               </div>
             </div>
           </div>
-          
     </div>
-      
       <div class="modal-footer" style="justify-content: space-between;">
-        <button type="button" class="btn btn-outline-secondary btn-rounded" (click)="modal.close()">Odustani</button>
-        <!-- Edit button -->
-         <!-- [disabled]="!otherChildGroup.valid"  -->
-        <!-- <button *ngIf="action === 'edit'" [disabled]="!apartmentGroupGroup.valid" type="button" ngbAutofocus
-          class="btn btn-primary btn-rounded" (click)="submit()">Spremi</button> -->
-        <!-- Create button -->
-        <!--  -->
+        <button type="button" class="btn btn-outline-secondary btn-rounded" (click)="modal.close()">Cancel</button>
         <button [disabled]="!userGroup.valid" *ngIf="action === 'add' || action === 'edit'" type="button" ngbAutofocus
-          class="btn btn-primary btn-rounded" (click)="submit()">Spremi</button>
-        <!-- Delete button -->
-        <!-- <button *ngIf="action === 'delete'" type="button" ngbAutofocus (click)="deleteApartmentGroup()" class="btn btn-danger btn-rounded" >Potvrdi</button> -->
+          class="btn btn-primary btn-rounded" (click)="submit()">Save</button>
       </div>
     </form>
   </div>

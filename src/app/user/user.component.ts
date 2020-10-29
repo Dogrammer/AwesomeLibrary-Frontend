@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Pagination } from '../helpers/pagination';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
@@ -36,6 +37,7 @@ export class UserComponent implements OnInit {
     private ngbModalService: NgbModal,
     private router: Router,
     private userService: UserService, 
+    private toastr: ToastrService,
     private formBuilder: FormBuilder,
               // public dialog: MatDialog,
               // private toastr: ToastrService,
@@ -64,22 +66,12 @@ export class UserComponent implements OnInit {
   }
 
   getUsers() {
-    // console.log('paramsloggetusers', this.userParams)
-    
-    
-
     this.userService.getUsersPagination(this.userParams, this.userGroup.value).subscribe(
       data => {
         
          this.users = data.result;
          this.pagination = data.pagination;
-        //  this.spinnerService.hide();
         })
-    // this.userService.getUsers().subscribe(
-    //   data => {
-    //     this.users = data;
-    //   }
-    // )
   }
 
   search() {
@@ -102,14 +94,11 @@ export class UserComponent implements OnInit {
           timeOut: 7500
         }
         console.log('id delete',id);
-        // this.toastr.info('Uspješno ste obrisali grupu', 'Uspjeh', toastrVar);
-        // this.isLoadingApproval = true;
         this.userService.deleteUser(id).pipe(take(1)).subscribe(data => {
-          // this.toastr.info('Izbrisali ste korisnika', 'Uspjeh');
+          this.toastr.info('User deleted', 'Uspjeh');
           this.getUsers();
         })
       } else {
-        // this.toastr.warning('Zahtjev nije prihvaćen', 'Pažnja', this.toastrVar);
       }
       // u slucaju da trebamo neki handle
     }).catch((res) => { });
@@ -120,21 +109,15 @@ export class UserComponent implements OnInit {
 
     modalRef.componentInstance.contacts = contacts;
     modalRef.componentInstance.title = 'User contacts';
-    // modalRef.componentInstance.description = '';
     modalRef.result.then(result => {
       if (result == true) {
         let toastrVar = {
           progressBar: true,
           timeOut: 7500
         }
-        // this.toastr.info('Uspješno ste obrisali grupu', 'Uspjeh', toastrVar);
-        // this.isLoadingApproval = true;
-        // this.loanService.returnLoan(id).pipe(take(1)).subscribe(data => {
-        //   // this.toastr.info('Izbrisali ste korisnika', 'Uspjeh');
-        //   this.getLoansForUser();
+        
         // })
       } else {
-        // this.toastr.warning('Zahtjev nije prihvaćen', 'Pažnja', this.toastrVar);
       }
       // u slucaju da trebamo neki handle
     }).catch((res) => { });
@@ -148,14 +131,14 @@ export class UserComponent implements OnInit {
       
       modalRef.componentInstance.row = row;
       if(isDelete) {
-        modalRef.componentInstance.title = `Brisanje korisnika - ${row.name}`;
+        modalRef.componentInstance.title = `Delete user - ${row.name}`;
         modalRef.componentInstance.action = 'delete';
       } else {
-        modalRef.componentInstance.title = 'Izmjena korisnika';
+        modalRef.componentInstance.title = 'Edit user';
         modalRef.componentInstance.action = 'edit';
       }
     } else {
-      modalRef.componentInstance.title = 'Dodaj korisnika';
+      modalRef.componentInstance.title = 'Add User';
       modalRef.componentInstance.action = 'add';
     }
     modalRef.result.then(result => {
@@ -164,17 +147,15 @@ export class UserComponent implements OnInit {
         timeOut: 7500
       }
       if (result == 'add') {
-        // this.toastrService.success('Dodali ste novu vrstu programa', 'Uspjeh', toastrVar);
+        this.toastr.success('User added', 'Uspjeh', toastrVar);
         this.getUsers();
       } else if(result == 'edit') {
-        // this.toastrService.success('Uredili ste vrstu programa', 'Uspjeh', toastrVar);
+        this.toastr.success('User edited', 'Uspjeh', toastrVar);
         this.getUsers();
       } else if(result == 'delete') {
-        // this.toastrService.warning('Izbrisali ste vrstu programa', 'Pažnja', toastrVar);
         this.getUsers();
       }
       setTimeout(() => {  
-      // this.filterProgrammeType();
     }, 200)
     }).catch((res) => {});
   }

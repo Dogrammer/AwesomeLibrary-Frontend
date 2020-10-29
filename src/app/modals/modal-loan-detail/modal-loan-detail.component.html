@@ -5,11 +5,8 @@
     <p><strong>{{ description }}</strong></p>
     <ul *ngFor="let item of books.bookLoans">
         <li>{{item.book.title}} | Quantity: {{item.quantity}}</li>
-        
-
     </ul>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary mr-auto" (click)="modal.close(false)">Close</button>
-    <!-- <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">Potvrdi</button> -->
   </div>
